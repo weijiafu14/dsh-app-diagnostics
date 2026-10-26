@@ -1,0 +1,5 @@
+- insert:
+    - id: app-diagnostics
+      name: dsh-app-diagnostics
+      disabled: true
+      config: {}

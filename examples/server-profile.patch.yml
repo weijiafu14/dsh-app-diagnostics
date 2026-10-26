@@ -1,0 +1,8 @@
+# Mount on an existing official dsh WebServer. Add the WebServer row only if absent.
+- insert:
+    - id: app-diagnostics-server
+      name: dsh-app-diagnostics/server
+      config:
+        directory: /absolute/private/diagnostics-server
+        adminTokenFile: /absolute/private/admin.token
+        retentionDays: 7

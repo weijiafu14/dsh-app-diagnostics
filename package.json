@@ -1,0 +1,79 @@
+{
+  "name": "dsh-app-diagnostics",
+  "version": "0.1.0",
+  "description": "On-demand diagnostics and authorized remote debugging for dsh applications",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "main": "dist/plugin.js",
+  "types": "dist/plugin.d.ts",
+  "exports": {
+    ".": "./dist/plugin.js",
+    "./server": "./dist/server-plugin.js",
+    "./core": "./dist/server.js",
+    "./device": "./dist/device.js",
+    "./client": "./dist/client.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "dsh-diagnostics": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE",
+    "SECURITY.md",
+    "cordis.patch.yml",
+    "VERIFICATION.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test --test-concurrency=1 test/*.test.mjs",
+    "prepack": "npm run build",
+    "format": "prettier --write src test examples"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.5",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-rc.3"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-host-webserver": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.0.5",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-rc.3",
+    "@types/node": "^24.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weijiafu14/dsh-app-diagnostics.git"
+  },
+  "homepage": "https://github.com/weijiafu14/dsh-app-diagnostics#readme",
+  "bugs": {
+    "url": "https://github.com/weijiafu14/dsh-app-diagnostics/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "diagnostics",
+    "inspector",
+    "mcp"
+  ]
+}
