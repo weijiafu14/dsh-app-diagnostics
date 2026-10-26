@@ -366,7 +366,9 @@ async function execute(job: Job) {
           expiresAt: d.expires,
           idleMs: config.debugIdleMs ?? 30000,
           contextExpression:
-            'globalThis[Symbol.for("dsh.appDiagnostics.context")]',
+            target === "host"
+              ? 'globalThis[Symbol.for("dsh.appDiagnostics.context")]'
+              : null,
         };
       } catch (e) {
         s!?.disconnect();
