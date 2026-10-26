@@ -17,6 +17,14 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - uses: browser-actions/setup-chrome@v2
+        if: runner.os == 'Linux'
+        id: chrome
+        with:
+          chrome-version: stable
+          install-dependencies: true
       - run: npm test
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
       - run: node examples/demo.mjs
       - run: npm pack

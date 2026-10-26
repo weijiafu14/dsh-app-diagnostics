@@ -30,6 +30,7 @@ test("real Chromium page CDP: evaluate, DOM and detach through the device relay"
       "--headless=new",
       "--no-sandbox",
       "--disable-gpu",
+      "--disable-dev-shm-usage",
       "--no-first-run",
       "--no-default-browser-check",
       "--remote-debugging-port=0",
@@ -38,6 +39,10 @@ test("real Chromium page CDP: evaluate, DOM and detach through the device relay"
     ],
     { stdio: "ignore" },
   );
+  let chromeErrors = "";
+  child.stderr?.on("data", (chunk) => {
+    chromeErrors = (chromeErrors + chunk).slice(-4000);
+  });
   let service, agent;
   t.after(async () => {
     await agent?.stop();
@@ -47,7 +52,7 @@ test("real Chromium page CDP: evaluate, DOM and detach through the device relay"
     fs.rmSync(dir, { recursive: true, force: true });
   });
   let port;
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 300; i++) {
     try {
       port = Number(
         fs
@@ -58,7 +63,7 @@ test("real Chromium page CDP: evaluate, DOM and detach through the device relay"
     } catch {}
     await new Promise((r) => setTimeout(r, 100));
   }
-  assert.ok(port, "Chrome remote-debugging port ready");
+  assert.ok(port, "Chrome remote-debugging port ready: " + chromeErrors);
   const pages = await fetch(`http://127.0.0.1:${port}/json/list`).then((r) =>
     r.json(),
   );
